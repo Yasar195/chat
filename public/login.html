@@ -119,5 +119,22 @@
             <p>About</p>
         </div>
     </section>
+
+    <script>
+        const textfield = document.getElementById('input');
+        const btn = document.getElementById('button');
+
+        document.addEventListener('keyup', (event)=> {
+            if(event.keyCode === 13){
+                btn.click();
+            }
+        })
+
+        btn.addEventListener('click', ()=> {
+            const name = textfield.value;
+            window.location.href = (`http://localhost:3000/chat?name=${name}`);
+            textfield.value = '';
+        })
+    </script>
 </body>
 </html>

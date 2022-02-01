@@ -50,12 +50,18 @@
       const chat = document.querySelector('.chat-form');
       const input = document.querySelector('.chat-input');
       const div = document.querySelector('.chat-window');
+      const urlparams = new URLSearchParams(window.location.search);
+      const name = urlparams.get('name');
 
 
       chat.addEventListener('submit', (event)=> {
           event.preventDefault();
           socket.emit('chat', input.value);
           input.value='';
+      })
+
+      socket.emit('register', {
+        name: name
       })
 
       socket.on('personal', (id)=> {

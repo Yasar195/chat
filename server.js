@@ -11,6 +11,16 @@ app.get('/', (req, res)=> {
     res.sendFile(path.join(__dirname, '/public', '/login.html'));
 })
 
+app.get('/chat', (req, res)=> {
+    res.sendFile(path.join(__dirname, '/public', '/index.html'));
+})
+
+app.post('/chat', (req, res)=> {
+    console.log('got it');
+    console.log(req.body.get('data'));
+    res.sendStatus(200);
+})
+
 io.on('connection', socket=> {
     id = id + 1;
     ids.push(id);
@@ -18,6 +28,10 @@ io.on('connection', socket=> {
 
     socket.on('chat', (message)=> {
         io.emit('chat', message);
+    })
+
+    socket.on('register', (data)=> {
+        console.log(data.name);
     })
 })
 
