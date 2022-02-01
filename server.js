@@ -8,7 +8,7 @@ const ids = [];
 let id = 0;
 
 app.get('/', (req, res)=> {
-    res.sendFile(path.join(__dirname, '/public', '/index.html'));
+    res.sendFile(path.join(__dirname, '/public', '/login.html'));
 })
 
 io.on('connection', socket=> {
