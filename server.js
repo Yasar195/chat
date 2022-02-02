@@ -1,4 +1,3 @@
-const { timeEnd } = require('console');
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
@@ -14,12 +13,6 @@ app.get('/', (req, res)=> {
 
 app.get('/chat', (req, res)=> {
     res.sendFile(path.join(__dirname, '/public', '/chat.html'));
-})
-
-app.post('/chat', (req, res)=> {
-    console.log('got it');
-    console.log(req.body.get('data'));
-    res.sendStatus(200);
 })
 
 io.on('connection', socket=> {
@@ -41,8 +34,30 @@ io.on('connection', socket=> {
         });
     })
 
+    socket.on('disconnect', ()=> {
+        let name;
+        users.forEach(person => {
+            if(person.id === socket.id){
+                name = person.name;
+                users.splice(users.indexOf(person), 1);
+                return;
+            }
+        });
+        io.emit('exit', {
+            names: users,
+            name: name
+        });
+    })
+
+
     socket.on('register', (data)=> {
-        users.push(data.name);
+        const person = {
+            id:socket.id,
+            name: data
+        }
+        console.log(person);
+        users.push(person);
+        io.emit('add', users);
     })
 })
 
