@@ -148,7 +148,6 @@
 
       .home{
         left: 60%;
-        text-align: right;
       }
 
       #outer{
@@ -157,10 +156,24 @@
       }
 
       #message{
-        display: inline-block;
+        display: inline-flex;
         min-width: auto;
         padding: 0.3rem;
-        border-radius: 0.6rem;
+        border-radius: 5px;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-top: 3%;
+      }
+
+      #time{
+        font-size: 0.3rem;
+        color: white;
+        text-align: right;
+      }
+
+      #sender{
+        font-size: 0.6rem;  
+        margin-bottom: 2%;
       }
     </style>
   </head>
@@ -234,25 +247,36 @@
       socket.on('chat', (data)=>{
           const sender = data.name;
           const message = data.message;
+          const time = data.time;
           const span = document.createElement('span');
+          const span1 = document.createElement('span');
+          const span2 = document.createElement('span');
           span.id = 'chat';
+          span1.id = "sender";
+          span2.id = 'time';
           span.textContent = message;
+          span1.textContent = sender;
+          span2.textContent = time;
           const p = document.createElement('p');
           p.id = 'message';
+          p.appendChild(span1);
           p.appendChild(span);
+          p.appendChild(span2);
           const div1 = document.createElement('div');
           div1.classList.add('outer-chat-div');
-          div1.appendChild(p);
           div2 = document.createElement('div');
           div2.id = 'outer';
           if(sender === name){
             div1.classList.add('home');
             p.style.backgroundColor = 'royalblue';
+            div1.style.display = "flex";
+            div1.style.justifyContent = "flex-end";
           }
           else{
             div1.classList.add('away');
             p.style.backgroundColor = 'rgb(56, 56, 56)';
           }
+          div1.appendChild(p);
           div2.appendChild(div1);
           chat_area.appendChild(div2);
       })

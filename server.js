@@ -24,7 +24,13 @@ app.post('/chat', (req, res)=> {
 io.on('connection', socket=> {
 
     socket.on('chat', (message)=> {
-        io.emit('chat', message);
+        const time = new Date();
+        const is = time.getHours>12 ? 'PM': 'AM';
+        const current = `${time.getHours()}:${time.getMinutes()}${is}`;
+        io.emit('chat', {
+            ...message,
+            time: current
+        });
     })
 
     socket.on('register', (data)=> {
