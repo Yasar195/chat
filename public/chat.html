@@ -148,11 +148,19 @@
 
       .home{
         left: 60%;
+        text-align: right;
       }
 
       #outer{
         width: 100%;
         position: relative;
+      }
+
+      #message{
+        display: inline-block;
+        min-width: auto;
+        padding: 0.3rem;
+        border-radius: 0.6rem;
       }
     </style>
   </head>
@@ -223,10 +231,6 @@
         name: name
       })
 
-      socket.on('personal', (id)=> {
-          console.log(`my id is ${id}`);
-      })
-
       socket.on('chat', (data)=>{
           const sender = data.name;
           const message = data.message;
@@ -243,15 +247,14 @@
           div2.id = 'outer';
           if(sender === name){
             div1.classList.add('home');
+            p.style.backgroundColor = 'royalblue';
           }
           else{
             div1.classList.add('away');
+            p.style.backgroundColor = 'rgb(56, 56, 56)';
           }
           div2.appendChild(div1);
-          console.log(div2);
-          console.log(span);
           chat_area.appendChild(div2);
-          console.log(chat_area);
       })
 
     </script>
