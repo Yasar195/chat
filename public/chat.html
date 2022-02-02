@@ -24,12 +24,14 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-        border-right: 2px solid white;
+        border-right: 0.5px solid white;
       }
 
       .chat{
         width: 70%;
         height: 100%;
+        padding: 1%;
+        position: relative;
       }
 
       .header{
@@ -38,7 +40,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 2px solid white;
+        border-bottom: 0.5px solid white;
       }
 
       .main{
@@ -79,10 +81,78 @@
         font-size: 0.7rem;
       }
 
+      #chat-div{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        top: 90%;
+      }
+
+      #type{
+        width: 92%;
+        border-radius: 1rem;
+        background-color: rgb(56, 56, 56);
+        border: none;
+        outline: none;
+        color: white;
+        font-size: 0.8rem;
+        padding: 1%;
+      }
+
+      #send{
+        background-color: #3378E0;
+        border: none;
+        outline: none;
+        padding: 1%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+
+      #btn-svg{
+        width: 70%;
+        height: 20%;
+      }
+
       #users{
         width: 100%;
         height: 80%;
         padding: 5%;
+      }
+
+      .chat-area{
+        width: 100%;
+        height: 88%;
+        position: relative;
+        top: -9%;
+      }
+
+      .outer-chat-div{
+        max-width: 40%;
+        padding-top:0.1%;
+        padding-bottom: 0.1%;
+        position: relative;
+      }
+
+      #chat{
+        color: white;
+        font-size: 0.6rem;
+      }
+
+      .away{
+        left: 0%;
+      }
+
+      .home{
+        left: 60%;
+      }
+
+      #outer{
+        width: 100%;
+        position: relative;
       }
     </style>
   </head>
@@ -114,23 +184,39 @@
         </div>
       </div>
       <div class="chat">
-
+        <div id="chat-div">
+          <input id="type" type="text" placeholder="Enter you message">
+          <button id="send">
+            <svg id="btn-svg" width="40" height="31" viewBox="0 0 40 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M38 15.5L2 1L8.96774 13.8889L16.5161 15.5L8.96774 17.6481L2.58065 30L38 15.5Z" fill="white" stroke="#3F8CFF"/>
+            </svg>              
+          </button>
+        </div>
+        <div class="chat-area"></div>
       </div>
     </div>
     <script src="socket.io/socket.io.js"></script>
     <script>
       const socket = io();
-      const chat = document.querySelector('.chat-form');
-      const input = document.querySelector('.chat-input');
-      const div = document.querySelector('.chat-window');
+      const input = document.getElementById('type');
+      const send = document.getElementById('send');
       const urlparams = new URLSearchParams(window.location.search);
       const name = urlparams.get('name');
+      const chat_area = document.querySelector('.chat-area');
       document.getElementById('me').textContent = `Welcome, ${name}`;
 
-      chat.addEventListener('submit', (event)=> {
-          event.preventDefault();
-          socket.emit('chat', input.value);
+      send.addEventListener('click', ()=> {
+          socket.emit('chat', {
+            message: input.value,
+            name: name
+          });
           input.value='';
+      })
+
+      document.addEventListener('keyup', (event)=>{
+        if(event.keyCode === 13){
+          send.click();
+        }
       })
 
       socket.emit('register', {
@@ -142,9 +228,30 @@
       })
 
       socket.on('chat', (data)=>{
-          const h3 = document.createElement('h3');
-          h3.textContent = data;
-          div.appendChild(h3);
+          const sender = data.name;
+          const message = data.message;
+          const span = document.createElement('span');
+          span.id = 'chat';
+          span.textContent = message;
+          const p = document.createElement('p');
+          p.id = 'message';
+          p.appendChild(span);
+          const div1 = document.createElement('div');
+          div1.classList.add('outer-chat-div');
+          div1.appendChild(p);
+          div2 = document.createElement('div');
+          div2.id = 'outer';
+          if(sender === name){
+            div1.classList.add('home');
+          }
+          else{
+            div1.classList.add('away');
+          }
+          div2.appendChild(div1);
+          console.log(div2);
+          console.log(span);
+          chat_area.appendChild(div2);
+          console.log(chat_area);
       })
 
     </script>

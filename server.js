@@ -4,7 +4,7 @@ const server = require('http').createServer(app);
 const port = process.env.port || 3000;
 const io = require('socket.io')(server);
 const path = require('path');
-const ids = [];
+const users = [];
 let id = 0;
 
 app.get('/', (req, res)=> {
@@ -22,16 +22,13 @@ app.post('/chat', (req, res)=> {
 })
 
 io.on('connection', socket=> {
-    id = id + 1;
-    ids.push(id);
-    socket.emit('personal', id);
 
     socket.on('chat', (message)=> {
         io.emit('chat', message);
     })
 
     socket.on('register', (data)=> {
-        console.log(data.name);
+        users.push(data.name);
     })
 })
 
