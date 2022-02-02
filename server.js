@@ -1,3 +1,4 @@
+const { timeEnd } = require('console');
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
@@ -25,8 +26,15 @@ io.on('connection', socket=> {
 
     socket.on('chat', (message)=> {
         const time = new Date();
-        const is = time.getHours>12 ? 'PM': 'AM';
-        const current = `${time.getHours()}:${time.getMinutes()}${is}`;
+        let current;
+        if(time.getHours()>=12){
+            const is = 'PM';
+            current = `${time.getHours()-12}:${time.getMinutes()}${is}`;
+        }
+        else{
+            const is = 'AM';
+            current = `${time.getHours()}:${time.getMinutes()}${is}`;
+        }
         io.emit('chat', {
             ...message,
             time: current

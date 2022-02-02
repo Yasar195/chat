@@ -1,6 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap" rel="stylesheet">
     <title>Chat app</title>
     <style>
       *{
@@ -8,6 +14,7 @@
         padding: 0;
         box-sizing: border-box;
         font-size: 30px;
+        font-family: 'Jost', sans-serif;
       }
 
       body{
@@ -128,6 +135,7 @@
         height: 88%;
         position: relative;
         top: -9%;
+        overflow: scroll;
       }
 
       .outer-chat-div{
@@ -158,22 +166,39 @@
       #message{
         display: inline-flex;
         min-width: auto;
-        padding: 0.3rem;
+        padding: 0.5rem;
         border-radius: 5px;
         flex-direction: column;
         justify-content: space-between;
         margin-top: 3%;
+        font-weight: bolder;
       }
 
       #time{
-        font-size: 0.3rem;
+        font-size: 0.4rem;
         color: white;
         text-align: right;
+        font-weight: bolder;
+        position: relative;
+        left: 10%;
       }
 
       #sender{
         font-size: 0.6rem;  
         margin-bottom: 2%;
+      }
+
+      @media (max-width: 1000px){
+        .chat-area{
+          top: -5%;
+          height: 85%;
+        }
+      }
+
+      @media (max-width: 700px){
+          *{
+              font-size: 22px;
+          }
       }
     </style>
   </head>
@@ -255,13 +280,9 @@
           span1.id = "sender";
           span2.id = 'time';
           span.textContent = message;
-          span1.textContent = sender;
           span2.textContent = time;
           const p = document.createElement('p');
           p.id = 'message';
-          p.appendChild(span1);
-          p.appendChild(span);
-          p.appendChild(span2);
           const div1 = document.createElement('div');
           div1.classList.add('outer-chat-div');
           div2 = document.createElement('div');
@@ -269,13 +290,19 @@
           if(sender === name){
             div1.classList.add('home');
             p.style.backgroundColor = 'royalblue';
+            p.style.paddingLeft = "10%";
             div1.style.display = "flex";
             div1.style.justifyContent = "flex-end";
           }
           else{
             div1.classList.add('away');
             p.style.backgroundColor = 'rgb(56, 56, 56)';
+            p.style.paddingRight = "10%";
+            span1.textContent = sender;
           }
+          p.appendChild(span1);
+          p.appendChild(span);
+          p.appendChild(span2);
           div1.appendChild(p);
           div2.appendChild(div1);
           chat_area.appendChild(div2);
