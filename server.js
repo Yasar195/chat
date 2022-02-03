@@ -55,7 +55,7 @@ io.on('connection', socket=> {
             id:socket.id,
             name: data
         }
-        console.log(person);
+        io.emit('notice', person);
         users.push(person);
         io.emit('add', users);
     })

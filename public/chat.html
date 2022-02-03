@@ -130,6 +130,9 @@
         padding: 5%;
         background-color: black;
         border-radius: 1rem;
+        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
       }
 
       .chat-area{
@@ -137,7 +140,10 @@
         height: 88%;
         position: relative;
         top: -9%;
-        overflow: scroll;
+        overflow: auto;
+        overflow-x: hidden;
+        padding-right: 3%;
+        overflow-y: auto;
       }
 
       .outer-chat-div{
@@ -194,6 +200,39 @@
       #sender{
         font-size: 0.6rem;  
         margin-bottom: 2%;
+      }
+
+      .notice{
+        padding: 0.1rem;
+        width: 100%;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(240, 255, 240, 0.616);
+        margin-top: 0.1%;
+        margin-bottom: 0.1%;
+      }
+
+      #notice-message{
+        font-size: 0.5rem;
+        font-weight: bolder;
+      }
+
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
       }
 
       @media (max-width: 1100px){
@@ -281,6 +320,7 @@
 
       socket.on('exit', (data)=> {
         users.innerHTML="";
+        let msg;
         data.names.forEach(person => {
           const p = document.createElement('p');
           p.textContent = person.name;
@@ -288,10 +328,36 @@
           div.id = 'user';
           div.appendChild(p);
           users.appendChild(div);
-        })
+        });
+        const p = document.createElement('p');
+        p.id = 'notice-message';
+        p.textContent = `${data.name} left the chat room`;
+        p.style.color = 'red';
+        div = document.createElement('div');
+        div.classList.add('notice');
+        div.appendChild(p);
+        chat_area.appendChild(div);
       })
 
       socket.emit('register',name);
+
+      socket.on('notice', (data)=> {
+        let msg;
+        if(data.id === socket.id){
+          msg = "You joined chat room";
+        }
+        else{
+          msg = `${data.name} joined the chat room`;
+        }
+        const p = document.createElement('p');
+        p.id = 'notice-message';
+        p.textContent = msg;
+        p.style.color = 'green';
+        const div = document.createElement('div');
+        div.classList.add('notice');
+        div.appendChild(p);
+        chat_area.appendChild(div);
+      })
 
       socket.on('add', (data)=> {
         users.innerHTML="";
