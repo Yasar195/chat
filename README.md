@@ -4,7 +4,7 @@
 2) From project's root directory run 'npm start' to start the application in local development server
 3) in your browser of choice visit 'localhost:3000' to view the application
 
-you can you multiple tabs to login as different users
+you can use multiple tabs to login as different users
 
 # What is it
 
