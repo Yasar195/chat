@@ -337,6 +337,9 @@
         div.classList.add('notice');
         div.appendChild(p);
         chat_area.appendChild(div);
+        if(chat_area.clientHeight < chat_area.scrollHeight){
+            chat_area.scrollTop = chat_area.scrollHeight - chat_area.clientHeight;
+        }
       })
 
       socket.emit('register',name);
@@ -357,6 +360,9 @@
         div.classList.add('notice');
         div.appendChild(p);
         chat_area.appendChild(div);
+        if(chat_area.clientHeight < chat_area.scrollHeight){
+            chat_area.scrollTop = chat_area.scrollHeight - chat_area.clientHeight;
+        }
       })
 
       socket.on('add', (data)=> {
