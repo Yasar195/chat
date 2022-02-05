@@ -375,7 +375,7 @@
         socket.emit('data', name);
       })
 
-      socket.on('chat', (data)=>{
+      socket.on('chat', (data, event)=>{
           const sender = data.name;
           const message = data.message;
           const time = data.time;
@@ -410,6 +410,9 @@
           div1.appendChild(p);
           div2.appendChild(div1);
           chat_area.appendChild(div2);
+          if(chat_area.clientHeight < chat_area.scrollHeight){
+            chat_area.scrollTop = chat_area.scrollHeight - chat_area.clientHeight;
+          }
       });
 
     </script>
