@@ -142,7 +142,7 @@
 
         btn.addEventListener('click', ()=> {
             const name = textfield.value;
-            window.location.href = (`http://localhost:3000/chat?name=${name}`);
+            window.location.href = (`${window.location.href}chat?name=${name}`);
             textfield.value = '';
         })
     </script>
