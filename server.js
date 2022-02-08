@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
-const port = process.env.port || 3000;
+const port = process.env.port || 5000;
 const io = require('socket.io')(server);
 const path = require('path');
 const users = [];
@@ -61,6 +61,4 @@ io.on('connection', socket=> {
     })
 })
 
-server.listen(port, ()=> {
-    console.log(`server listening on port ${port}`);
-})
+server.listen(port)
