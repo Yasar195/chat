@@ -2,7 +2,7 @@
 
 1) From project's root directory run 'npm install' to download the dependencies
 2) From project's root directory run 'npm start' to start the application in local development server
-3) in your browser of choice visit 'localhost:3000' to view the application
+3) in your browser of choice visit 'localhost:5000' to view the application
 
 you can use multiple tabs to login as different users
 
