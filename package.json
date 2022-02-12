@@ -2,7 +2,7 @@
   "name": "chat",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
@@ -12,5 +12,8 @@
   "dependencies": {
     "express": "^4.17.2",
     "socket.io": "^4.4.1"
+  },
+  "engines": {
+    "node": "16.13.2"
   }
 }
