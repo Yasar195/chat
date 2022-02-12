@@ -5,7 +5,6 @@ const port = process.env.port || 5000;
 const io = require('socket.io')(server);
 const path = require('path');
 const users = [];
-let id = 0;
 
 app.get('/', (req, res)=> {
     res.sendFile(path.join(__dirname, '/public', '/login.html'));
