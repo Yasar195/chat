@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
-const port = process.env.port || 5000;
+const port = process.env.PORT || 5000;
 const io = require('socket.io')(server);
 const path = require('path');
 const users = [];
@@ -17,19 +17,9 @@ app.get('/chat', (req, res)=> {
 io.on('connection', socket=> {
 
     socket.on('chat', (message)=> {
-        const time = new Date();
-        let current;
-        if(time.getHours()>=12){
-            const is = 'PM';
-            current = `${time.getHours()-12}:${time.getMinutes()}${is}`;
-        }
-        else{
-            const is = 'AM';
-            current = `${time.getHours()}:${time.getMinutes()}${is}`;
-        }
         io.emit('chat', {
             ...message,
-            time: current
+            id: socket.id
         });
     })
 
@@ -60,4 +50,4 @@ io.on('connection', socket=> {
     })
 })
 
-server.listen(port)
+server.listen(port, '0.0.0.0');

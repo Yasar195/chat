@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <title>Chat app</title>
     <style>
       *{
@@ -14,7 +14,7 @@
         padding: 0;
         box-sizing: border-box;
         font-size: 30px;
-        font-family: 'Jost', sans-serif;
+        font-family: 'Roboto', sans-serif;
       }
 
       body{
@@ -264,6 +264,10 @@
         *{
           font-size: 18px;
         }
+
+        #chat{
+          font-size: 0.8rem;
+        }
       }
 
       @media (max-width: 500px){
@@ -273,6 +277,15 @@
 
         .chat{
           width: 100%;
+        }
+
+        #chat{
+          font-size: 0.7rem;
+        }
+
+        #time{
+          margin-top: 2%;
+          font-size: 0.5rem;
         }
       }
     </style>
@@ -391,10 +404,19 @@
         socket.emit('data', name);
       })
 
-      socket.on('chat', (data, event)=>{
+      socket.on('chat', (data)=>{
           const sender = data.name;
           const message = data.message;
-          const time = data.time;
+          const time = new Date();
+          let current;
+          if(time.getHours()>=12){
+              const is = 'PM';
+              current = `${time.getHours()-12}:${time.getMinutes()}${is}`;
+          }
+          else{
+              const is = 'AM';
+              current = `${time.getHours()}:${time.getMinutes()<10? '0'+time.getMinutes():time.getMinutes()}${is}`;
+          }
           const span = document.createElement('span');
           const span1 = document.createElement('span');
           const span2 = document.createElement('span');
@@ -402,14 +424,14 @@
           span1.id = "sender";
           span2.id = 'time';
           span.textContent = message;
-          span2.textContent = time;
+          span2.textContent = current;
           const p = document.createElement('p');
           p.id = 'message';
           const div1 = document.createElement('div');
           div1.classList.add('outer-chat-div');
           div2 = document.createElement('div');
           div2.id = 'outer';
-          if(sender === name){
+          if(data.id === socket.id){
             div1.classList.add('home');
             p.style.backgroundColor = 'royalblue';
             div1.style.display = "flex";
